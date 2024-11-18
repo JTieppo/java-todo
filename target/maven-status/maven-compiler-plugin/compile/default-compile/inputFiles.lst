@@ -1,0 +1,10 @@
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/TaskManagerApplication.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/config/JwtRequestFilter.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/config/JwtUtil.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/config/SecurityConfig.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/controller/AuthController.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/controller/TaskController.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/models/Tasks.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/repository/TaskRepository.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/service/CustomUserDetailsService.java
+/Users/tieppo/java-todo/src/main/java/com/example/task_manager/service/TaskService.java
