@@ -1,6 +1,6 @@
 package com.example.main.service;
 
-import com.example.main.models.Tasks;
+import com.example.main.models.Card;
 import com.example.main.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,38 +11,38 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TaskService {
+public class CardService {
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public CardService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
    
-    public Tasks createTask(Tasks task) {
-        task.setStatus(Tasks.Status.todo); 
+    public Card createTask(Card task) {
+        task.setStatus(Card.Status.todo); 
         return taskRepository.save(task);
     }
 
     
-    public Map<String, List<Tasks>> getAllTasksOrganizedByStatus() {
-        List<Tasks> allTasks = taskRepository.findAll();
+    public Map<String, List<Card>> getAllTasksOrganizedByStatus() {
+        List<Card> allTasks = taskRepository.findAll();
 
-        List<Tasks> todoTasks = new ArrayList<>();
-        List<Tasks> doingTasks = new ArrayList<>();
-        List<Tasks> doneTasks = new ArrayList<>();
+        List<Card> todoTasks = new ArrayList<>();
+        List<Card> doingTasks = new ArrayList<>();
+        List<Card> doneTasks = new ArrayList<>();
 
-        for (Tasks task : allTasks) {
-            if (task.getStatus() == Tasks.Status.todo) {
+        for (Card task : allTasks) {
+            if (task.getStatus() == Card.Status.todo) {
                 todoTasks.add(task);
-            } else if (task.getStatus() == Tasks.Status.doing) {
+            } else if (task.getStatus() == Card.Status.doing) {
                 doingTasks.add(task);
-            } else if (task.getStatus() == Tasks.Status.done) {
+            } else if (task.getStatus() == Card.Status.done) {
                 doneTasks.add(task);
             }
         }
 
-        Map<String, List<Tasks>> tasksByStatus = new HashMap<>();
+        Map<String, List<Card>> tasksByStatus = new HashMap<>();
         tasksByStatus.put("todo", todoTasks);
         tasksByStatus.put("doing", doingTasks);
         tasksByStatus.put("done", doneTasks);
@@ -51,15 +51,15 @@ public class TaskService {
     }
 
     
-    public Tasks moveTask(Long id) {
-        Tasks task = taskRepository.findById(id)
+    public Card moveTask(Long id) {
+        Card task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
 
-        if (task.getStatus() == Tasks.Status.todo) {
-            task.setStatus(Tasks.Status.doing);
-        } else if (task.getStatus() == Tasks.Status.doing) {
-            task.setStatus(Tasks.Status.done);
-        } else if (task.getStatus() == Tasks.Status.done) {
+        if (task.getStatus() == Card.Status.todo) {
+            task.setStatus(Card.Status.doing);
+        } else if (task.getStatus() == Card.Status.doing) {
+            task.setStatus(Card.Status.done);
+        } else if (task.getStatus() == Card.Status.done) {
             throw new RuntimeException("The task is already completed");
         }
 
@@ -67,8 +67,8 @@ public class TaskService {
     }
 
     
-    public Tasks updateTask(Long id, Tasks updatedTask) {
-        Tasks task = taskRepository.findById(id)
+    public Card updateTask(Long id, Card updatedTask) {
+        Card task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
 
         task.setTitle(updatedTask.getTitle());
@@ -88,11 +88,11 @@ public class TaskService {
     }
 
     
-    public List<Tasks> getTasksSortedByPriority(Tasks.Status status) {
-        List<Tasks> allTasks = taskRepository.findAll();
+    public List<Card> getTasksSortedByPriority(Card.Status status) {
+        List<Card> allTasks = taskRepository.findAll();
 
-        List<Tasks> filteredTasks = new ArrayList<>();
-        for (Tasks task : allTasks) {
+        List<Card> filteredTasks = new ArrayList<>();
+        for (Card task : allTasks) {
             if (task.getStatus() == status) {
                 filteredTasks.add(task);
             }
@@ -103,11 +103,11 @@ public class TaskService {
     }
 
     
-    public List<Tasks> filterTasksByPriorityAndDueDate(Tasks.Priority priority, LocalDate dueDate) {
-        List<Tasks> allTasks = taskRepository.findAll();
+    public List<Card> filterTasksByPriorityAndDueDate(Card.Priority priority, LocalDate dueDate) {
+        List<Card> allTasks = taskRepository.findAll();
 
-        List<Tasks> filteredTasks = new ArrayList<>();
-        for (Tasks task : allTasks) {
+        List<Card> filteredTasks = new ArrayList<>();
+        for (Card task : allTasks) {
             if (task.getPriority() == priority && task.getDueDate() != null && task.getDueDate().isBefore(dueDate)) {
                 filteredTasks.add(task);
             }
@@ -118,23 +118,23 @@ public class TaskService {
 
     
     public Map<String, Object> generateReport() {
-        List<Tasks> allTasks = taskRepository.findAll();
+        List<Card> allTasks = taskRepository.findAll();
 
-        List<Tasks> todoTasks = new ArrayList<>();
-        List<Tasks> doingTasks = new ArrayList<>();
-        List<Tasks> doneTasks = new ArrayList<>();
-        List<Tasks> overdueTasks = new ArrayList<>();
+        List<Card> todoTasks = new ArrayList<>();
+        List<Card> doingTasks = new ArrayList<>();
+        List<Card> doneTasks = new ArrayList<>();
+        List<Card> overdueTasks = new ArrayList<>();
 
-        for (Tasks task : allTasks) {
-            if (task.getStatus() == Tasks.Status.todo) {
+        for (Card task : allTasks) {
+            if (task.getStatus() == Card.Status.todo) {
                 todoTasks.add(task);
-            } else if (task.getStatus() == Tasks.Status.doing) {
+            } else if (task.getStatus() == Card.Status.doing) {
                 doingTasks.add(task);
-            } else if (task.getStatus() == Tasks.Status.done) {
+            } else if (task.getStatus() == Card.Status.done) {
                 doneTasks.add(task);
             }
 
-            if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()) && task.getStatus() != Tasks.Status.done) {
+            if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()) && task.getStatus() != Card.Status.done) {
                 overdueTasks.add(task);
             }
         }

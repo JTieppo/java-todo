@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Tasks {
+public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
