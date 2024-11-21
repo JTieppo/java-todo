@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
 import com.example.main.models.Card;
-import com.example.main.service.CardeService;
+import com.example.main.service.CardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +11,17 @@ import java.util.Map;
 @RestController
 @RequestMapping("/Card")
 public class CardController {
-    private final Cardervice Cardervice;
+    private final CardService cardService;
 
-    public TaskController(CardService cardService) {
+    public CardController(CardService cardService) {
         this.cardService = cardService;
     }
 
     
     @PostMapping
-    public ResponseEntity<Card> createTask(@RequestBody Card card) {
-        Card createdTask = cardService.createTask(card);
-        return ResponseEntity.ok(createdTask);
+    public ResponseEntity<Card> createCard(@RequestBody Card card) {
+        Card createdCard = cardService.createCard(card);
+        return ResponseEntity.ok(createdCard);
     }
 
     
@@ -33,22 +33,22 @@ public class CardController {
 
     
     @PutMapping("/{id}/move")
-    public ResponseEntity<Card> moveTask(@PathVariable Long id) {
-        Card movedTask = cardService.moveTask(id);
-        return ResponseEntity.ok(movedTask);
+    public ResponseEntity<Card> moveCard(@PathVariable Long id) {
+        Card movedCard = cardService.moveCard(id);
+        return ResponseEntity.ok(movedCard);
     }
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<Card> updateTask(@PathVariable Long id, @RequestBody Card updatedTask) {
-        Card card = Cardervice.updateTask(id, updatedTask);
-        return ResponseEntity.ok(task);
+    public ResponseEntity<Card> updateCard(@PathVariable Long id, @RequestBody Card updatedCard) {
+        Card card = cardService.updateCard(id, updatedCard);
+        return ResponseEntity.ok(card);
     }
 
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        Cardervice.deleteTask(id);
+    public ResponseEntity<Void> deleteCard(@PathVariable Long id) {
+        cardService.deleteCard(id);
         return ResponseEntity.noContent().build();
     }
 
