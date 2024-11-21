@@ -19,13 +19,13 @@ public class CardService {
     }
 
    
-    public Card createCard(Card card) {
+    public Card create(Card card) {
         card.setStatus(Card.Status.todo); 
-        return CardRepository.save(card);
+        return cardRepository.save(card);
     }
 
     
-    public Map<String, List<Card>> getAllCardsOrganizedByStatus() {
+    public Map<String, List<Card>> getCardsByStatus() {
         List<Card> allCards = cardRepository.findAll();
 
         List<Card> todoCards = new ArrayList<>();
@@ -42,7 +42,7 @@ public class CardService {
             }
         }
 
-        Map<String, List<Card>> CardsByStatus = new HashMap<>();
+        Map<String, List<Card>> cardsByStatus = new HashMap<>();
         cardsByStatus.put("todo", todoCards);
         cardsByStatus.put("doing", doingCards);
         cardsByStatus.put("done", doneCards);
@@ -51,8 +51,8 @@ public class CardService {
     }
 
     
-    public Card moveCard(Long id) {
-        Card card = CardRepository.findById(id)
+    public Card move(Long id) {
+        Card card = cardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Card not found"));
 
         if (card.getStatus() == Card.Status.todo) {
@@ -63,12 +63,12 @@ public class CardService {
             throw new RuntimeException("The card is already completed");
         }
 
-        return CardRepository.save(Card);
+        return cardRepository.save(card);
     }
 
     
-    public Card updateCard(Long id, Card updatedCard) {
-        Card card = CardRepository.findById(id)
+    public Card update(Long id, Card updatedCard) {
+        Card card = cardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Card not found"));
 
         card.setTitle(updatedCard.getTitle());
@@ -80,7 +80,7 @@ public class CardService {
     }
 
     
-    public void deleteCard(Long id) {
+    public void delete(Long id) {
         if (!cardRepository.existsById(id)) {
             throw new RuntimeException("Card not found");
         }
@@ -88,8 +88,8 @@ public class CardService {
     }
 
     
-    public List<Card> getCardsSortedByPriority(Card.Status status) {
-        List<Card> allCards = CardRepository.findAll();
+    public List<Card> getCardsByPriority(Card.Status status) {
+        List<Card> allCards = cardRepository.findAll();
 
         List<Card> filteredCards = new ArrayList<>();
         for (Card card : allCards) {
@@ -103,12 +103,12 @@ public class CardService {
     }
 
     
-    public List<Card> filterCardsByPriorityAndDueDate(Card.Priority priority, LocalDate dueDate) {
+    public List<Card> filterCardsPriorityDate(Card.Priority priority, LocalDate dueDate) {
         List<Card> allCards = cardRepository.findAll();
 
         List<Card> filteredCards = new ArrayList<>();
         for (Card card : allCards) {
-            if (card.getPriority() == priority && Card.getDueDate() != null && card.getDueDate().isBefore(dueDate)) {
+            if (card.getPriority() == priority && card.getDueDate() != null && card.getDueDate().isBefore(dueDate)) {
                 filteredCards.add(card);
             }
         }
@@ -117,7 +117,7 @@ public class CardService {
     }
 
     
-    public Map<String, Object> generateReport() {
+    public Map<String, Object> report() {
         List<Card> allCards = cardRepository.findAll();
 
         List<Card> todoCards = new ArrayList<>();
